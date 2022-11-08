@@ -12,6 +12,12 @@ zona3 = [210, -150, 5, 20]
 all_zones = [zona1, zona2, zona3]
 # points = []
 points_as_string = ""
+number_of_decimals = 3
+x_lower_limit = -300
+x_upper_limit = 300
+
+y_lower_limit = -300
+y_upper_limit = 300
 
 
 def random_index():
@@ -26,14 +32,14 @@ def G(coord, m, sigma):
 
     confidence = e ** (-a / b)
 
-    return confidence.__round__(3)
+    return confidence.__round__(number_of_decimals)
 
 
 def create_axes():
     plt.axhline(0)  # x-axis line
     plt.axvline(0)  # y-axis line
-    plt.xlim(-300, 300)
-    plt.ylim(-300, 300)
+    plt.xlim(x_lower_limit, x_upper_limit)
+    plt.ylim(y_lower_limit, y_upper_limit)
     for i in range(6000):
         get_coordinates()
 
@@ -42,21 +48,23 @@ def get_coordinates():
     index = random_index()
     random_zone = all_zones[index]
 
-    x = random.randint(-300, 300)
+    x = random.randint(x_lower_limit, x_upper_limit)
     confidence = G(x, random_zone[0], random_zone[2])
-    prg = random.random().__round__(3)
-    while confidence < prg:
-        x = random.randint(-300, 300)
-        confidence = G(x, random_zone[0], random_zone[2])
-        prg = random.random().__round__(3)
+    prg = random.random().__round__(number_of_decimals)
 
-    y = random.randint(-300, 300)
-    confidence = G(y, random_zone[1], random_zone[3])
-    prg = random.random().__round__(3)
     while confidence < prg:
-        y = random.randint(-300, 300)
+        x = random.randint(x_lower_limit, x_upper_limit)
+        confidence = G(x, random_zone[0], random_zone[2])
+        prg = random.random().__round__(number_of_decimals)
+
+    y = random.randint(y_lower_limit, y_upper_limit)
+    confidence = G(y, random_zone[1], random_zone[3])
+    prg = random.random().__round__(number_of_decimals)
+
+    while confidence < prg:
+        y = random.randint(y_lower_limit, y_upper_limit)
         confidence = G(y, random_zone[1], random_zone[3])
-        prg = random.random().__round__(3)
+        prg = random.random().__round__(number_of_decimals)
 
     point = Point(x, y, index)
     # points.append(Point(x, y))
